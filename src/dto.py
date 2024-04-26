@@ -15,6 +15,9 @@ class Payment:
         return f'payment(name={self.name}, number={self.number})'
 
     def safe(self) -> str:
+        """
+        Определяет, откуда поступает операция - счет или карта
+        """
         if self.name.lower() == 'счет':
             safe_number = self._get_safe_account()
         else:
@@ -23,14 +26,23 @@ class Payment:
         return f'{self.name} {safe_number}'
 
     def _get_safe_account(self) -> str:
+        """
+        Шифрует номер счета
+        """
         return '*' * 2 + self.number[-4:]
 
     def _get_safe_card_number(self) -> str:
+        """
+        Шифрует номер счета
+        """
         start, middle, end = self.number[:6], self.number[6:-4], self.number[-4:]
         return start + '*' * len(middle) + end
 
     @staticmethod
     def split_card_number_by_block(card_number: str) -> str:
+        """
+        Разделяет номер карты на 4 блока
+        """
         block_size = (4, 4, 4, 4)
         result = []
         for bs in block_size:
@@ -95,9 +107,10 @@ class Operation:
         )
 
     def safe(self) -> str:
-        lines = [
-            f'{self.date.strftime("%d.%m.%Y")} {self.description}',
-        ]
+        """
+        Вывод операции
+        """
+        lines = [f'{self.date.strftime("%d.%m.%Y")} {self.description}',]
         if self.payment_from:
             lines.append(f'{self.payment_from.safe()} -> {self.payment_to.safe()}')
         else:

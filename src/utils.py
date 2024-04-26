@@ -14,6 +14,9 @@ def get_operations(failname) -> list[Operation]:
 
 
 def filter_operation_by_state(*operations: Operation, state: str) -> list[Operation]:
+    """
+    Фильтрует операции по их статусу
+    """
     filtered_operations: list[Operation] = []
     for op in operations:
         if op.state == state:
@@ -22,4 +25,7 @@ def filter_operation_by_state(*operations: Operation, state: str) -> list[Operat
 
 
 def sort_operation_by_data(*operations: Operation) -> list[Operation]:
+    """
+    Сортировка операций по дате поступления в обратном порядке
+    """
     return sorted(operations, key=lambda op: op.date, reverse=True)
